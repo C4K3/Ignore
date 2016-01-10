@@ -1,0 +1,10 @@
+name: Ignore
+main: net.simpvp.Ignore.Ignore
+version: 2
+author: simpvp.net
+description: Lets players ignore other players.
+commands:
+  Ignore:
+    description: (Un)ignores target player.
+  Me:
+    description: Duplicate of vanilla /me with ignore support
