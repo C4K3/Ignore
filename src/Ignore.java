@@ -12,9 +12,9 @@ public class Ignore extends JavaPlugin {
 
 	public void onEnable() {
 		getServer().getPluginManager().registerEvents(new ChatListener(), this);
-		getServer().getPluginManager().registerEvents(new TellListener(), this);
 		getCommand("ignore").setExecutor(new IgnoreCommand());
 		getCommand("me").setExecutor(new MeCommand());
+		getCommand("tell").setExecutor(new TellCommand());
 	}
 
 	public void onDisable() {

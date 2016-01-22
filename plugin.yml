@@ -8,3 +8,5 @@ commands:
     description: (Un)ignores target player.
   Me:
     description: Duplicate of vanilla /me with ignore support
+  Tell:
+    description: Duplicate of vanilla /tell with ignore support and with clickable links
