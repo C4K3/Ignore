@@ -3,7 +3,7 @@ Ignore
 
 A bukkit plugin that lets player's ignore each other.
 
-Do note that this plugin due to technical reasons replaces the /me command. If another plugin also replaces the /me command, it will conflict with this plugin.
+Do note that this plugin due to technical reasons replaces both the /me and /tell commands. If another plugin also replaces the /me or /tell command, it will conflict with this plugin.
 
 Commands
 -----
