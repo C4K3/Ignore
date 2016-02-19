@@ -32,15 +32,15 @@ public class TellCommand implements CommandExecutor {
 
 		@SuppressWarnings("deprecation") /* Only used to get as command argument */
 		Player target = Ignore.instance.getServer().getPlayerExact(args[0]);
-		String starget;
 
+		if (target == null && !args[0].equalsIgnoreCase("server")) {
+			send_msg(player, "[" + splayer + ": That player cannot be found]", ChatColor.GRAY);
+			return true;
+		}
+
+		String starget;
 		if (target == null) {
-			if (args[0].equalsIgnoreCase("server")) {
-				starget = "Server";
-			} else {
-				send_msg(player, "[" + splayer + ": That player cannot be found]", ChatColor.GRAY);
-				return true;
-			}
+			starget = "Server";
 		} else {
 			starget = target.getName();
 		}
@@ -49,7 +49,12 @@ public class TellCommand implements CommandExecutor {
 		for (int i = 2; i < args.length; i++)
 			msg += " " + args[i];
 
-		send_msg(player, "-->" + starget + ": " + msg, ChatColor.GRAY);
+		/* Don't let people figure out if a vanished admin is online or not */
+		if (player == null || target == null || player.canSee(target)) {
+			send_msg(player, "-->" + starget + ": " + msg, ChatColor.GRAY);
+		} else {
+			send_msg(player, "[" + splayer + ": That player cannot be found]", ChatColor.GRAY);
+		}
 
 		/* Only actually send the message to the recipient if they're not ignoring the sender */
 		if (player == null || !Storage.getIsIgnoring(target, player))
