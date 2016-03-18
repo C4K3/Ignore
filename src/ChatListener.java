@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 /**
- * Listens to all chat messages, and removes any recipients as necessary.
+ * Listens to all chat messages, and removes from the recipients any player ignoring the event.getPlayer
  */
 public class ChatListener implements Listener {
 
@@ -22,9 +22,8 @@ public class ChatListener implements Listener {
 		Set<Player> recipients = event.getRecipients();
 
 		for (Player p : Ignore.instance.getServer().getOnlinePlayers()) {
-			if (Storage.getIsIgnoring(p, event.getPlayer())) {
+			if (Storage.getIsIgnoring(p, event.getPlayer()))
 				recipients.remove(p);
-			}
 		}
 
 	}
