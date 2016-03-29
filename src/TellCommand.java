@@ -51,6 +51,7 @@ public class TellCommand implements CommandExecutor {
 		}
 
 		if (target == null && !is_target_server) {
+			/* Yes this is confusing, but the message is imitating default (Notchian) behavior */
 			send_msg(player, "[" + splayer + ": That player cannot be found]", ChatColor.GRAY);
 			return;
 		}
