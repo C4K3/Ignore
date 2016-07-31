@@ -10,6 +10,10 @@ commands:
     description: Duplicate of vanilla /me with ignore support
   Tell:
     description: Duplicate of vanilla /tell with ignore support and with clickable links
+  W:
+    description: Alias for /tell
+  Msg:
+    description: Alias for /tell
   M:
     description: Sends a private message to the last person you sent a message to
   R:

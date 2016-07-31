@@ -15,6 +15,8 @@ public class Ignore extends JavaPlugin {
 		getCommand("ignore").setExecutor(new IgnoreCommand());
 		getCommand("me").setExecutor(new MeCommand());
 		getCommand("tell").setExecutor(new TellCommand());
+		getCommand("w").setExecutor(new TellCommand());
+		getCommand("msg").setExecutor(new TellCommand());
 		getCommand("r").setExecutor(new PMCommands());
 		getCommand("m").setExecutor(new PMCommands());
 	}
