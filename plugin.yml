@@ -1,6 +1,6 @@
 name: Ignore
 main: net.simpvp.Ignore.Ignore
-version: 3
+version: 4
 author: simpvp.net
 description: Lets players ignore other players.
 commands:
