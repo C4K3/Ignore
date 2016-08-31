@@ -9,3 +9,4 @@ public class UUIDName {
 	public UUID uuid;
 	public String name;
 }
+

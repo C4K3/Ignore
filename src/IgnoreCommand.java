@@ -16,7 +16,10 @@ import org.bukkit.entity.Player;
  */
 public class IgnoreCommand implements CommandExecutor {
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public boolean onCommand(CommandSender sender,
+			Command cmd,
+			String label,
+			String[] args) {
 
 		Player player = null;
 		if (sender instanceof Player) {
@@ -24,18 +27,20 @@ public class IgnoreCommand implements CommandExecutor {
 		}
 
 		if (player == null) {
-			Ignore.instance.getLogger().info("Only players can use this command.");
+			Ignore.instance.getLogger().info(
+					"Only players can use this command.");
 			return true;
 		}
 
 		if (args.length > 1) {
-			player.sendMessage(ChatColor.RED + "Incorrect amount of arguments.\n"
+			player.sendMessage(ChatColor.RED
+					+ "Incorrect amount of arguments.\n"
 					+ "Usage: /ignore [player]");
-			return true;
-		}
 
-		if (args.length == 0) {
-			ArrayDeque<String> ignored = Storage.getListIgnoring(player);
+		} else if (args.length == 0) {
+			/* Print who the sender is ignoring */
+			ArrayDeque<String> ignored
+				= Storage.getListIgnoring(player);
 			
 			if (ignored == null || ignored.size() == 0) {
 				player.sendMessage(ChatColor.GOLD + "You are not ignoring anybody.");
@@ -43,17 +48,19 @@ public class IgnoreCommand implements CommandExecutor {
 			}
 
 			Iterator<String> ite = ignored.iterator();
-			String msg = ChatColor.GOLD + "You are ignoring: " + ite.next();
-			while (ite.hasNext())
+			String msg = ChatColor.GOLD + "You are ignoring: "
+				+ ite.next();
+			while (ite.hasNext()) {
 				msg += ", " + ite.next();
+			}
 
 			player.sendMessage(msg);
 
-		}
-
-		if (args.length == 1) {
-			@SuppressWarnings("deprecation") /* Only used to get as command argument, is saved as UUID */
-			Player target = Ignore.instance.getServer().getPlayer(args[0]);
+		} else if (args.length == 1) {
+			/* Is not stored, only used as command argument */
+			@SuppressWarnings("deprecation")
+			Player target = Ignore.instance.getServer()
+					.getPlayer(args[0]);
 
 			if (target == null) {
 				player.sendMessage(ChatColor.RED + "There is no player with that name online.");
@@ -61,10 +68,15 @@ public class IgnoreCommand implements CommandExecutor {
 			}
 
 			if (Storage.getIsIgnoring(player, target)) {
-				player.sendMessage(ChatColor.GOLD + "You are no longer ignoring " + target.getName() + ".");
+				player.sendMessage(ChatColor.GOLD
+						+ "You are no longer ignoring "
+						+ target.getName() + ".");
 				Storage.removeIgnore(player, target);
 			} else {
-				player.sendMessage(ChatColor.GOLD + "You are now ignoring " + target.getName() + ". Use /ignore again to unignore.");
+				player.sendMessage(ChatColor.GOLD
+						+ "You are now ignoring "
+						+ target.getName()
+						+ ". Use /ignore again to unignore.");
 				Storage.addIgnore(player, target);
 			}
 

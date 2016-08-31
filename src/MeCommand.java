@@ -12,7 +12,12 @@ import org.bukkit.entity.Player;
  */
 public class MeCommand implements CommandExecutor {
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public boolean onCommand(
+			CommandSender sender,
+			Command cmd,
+			String label,
+			String[] args) {
+
 		Player player = null;
 		if (sender instanceof Player)
 			player = (Player) sender;
@@ -40,7 +45,8 @@ public class MeCommand implements CommandExecutor {
 
 		Bukkit.getLogger().info(msg);
 
-		for (Player p : Ignore.instance.getServer().getOnlinePlayers()) {
+		for (Player p : Ignore.instance.getServer()
+				.getOnlinePlayers()) {
 			if (player != null && !Storage.getIsIgnoring(p, player))
 				p.sendMessage(msg);
 		}

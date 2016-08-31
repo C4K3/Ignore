@@ -11,11 +11,15 @@ import org.bukkit.entity.Player;
  */
 public class Storage {
 
-	/* Key is player who is ignored, and the arraydeque is a list of all players who have ignored the key. */
-	private static HashMap<UUID, ArrayDeque<UUID>> ignoreMap = new HashMap<UUID, ArrayDeque<UUID>>();
+	/* Key is player who is ignored, and the arraydeque is a list of all
+	 * players who have ignored the key. */
+	private static HashMap<UUID, ArrayDeque<UUID>> ignoreMap
+		= new HashMap<UUID, ArrayDeque<UUID>>();
 
-	/* Key is player who is ignoring, value is name of player ignorer is ignoring */
-	private static HashMap<UUID, ArrayDeque<String>> ignoringMap = new HashMap<UUID, ArrayDeque<String>>();
+	/* Key is player who is ignoring, value is name of player ignorer
+	 * is ignoring */
+	private static HashMap<UUID, ArrayDeque<String>> ignoringMap
+		= new HashMap<UUID, ArrayDeque<String>>();
 
 	/**
 	 * Returns whether player is ignored by anybody.
@@ -54,14 +58,15 @@ public class Storage {
 	 * @param ignored Player who is being ignored.
 	 */
 	public static void removeIgnore(Player ignorer, Player ignored) {
-		ArrayDeque<UUID> ignorers = ignoreMap.get(ignored.getUniqueId());
+		ArrayDeque<UUID> ignorers
+			= ignoreMap.get(ignored.getUniqueId());
 		ignorers.remove(ignorer.getUniqueId());
 		ignoreMap.put(ignored.getUniqueId(), ignorers);
 
-		ArrayDeque<String> ignoring = ignoringMap.get(ignorer.getUniqueId());
+		ArrayDeque<String> ignoring
+			= ignoringMap.get(ignorer.getUniqueId());
 		ignoring.remove(ignored.getName());
 		ignoringMap.put(ignorer.getUniqueId(), ignoring);
-
 	}
 
 	/**
@@ -70,15 +75,23 @@ public class Storage {
 	 * @param ignored Player who is being ignored.
 	 */
 	public static void addIgnore(Player ignorer, Player ignored) {
-		ArrayDeque<UUID> ignorers = ignoreMap.get(ignored.getUniqueId());
-		if (ignorers == null)
+		ArrayDeque<UUID> ignorers
+			= ignoreMap.get(ignored.getUniqueId());
+
+		if (ignorers == null) {
 			ignorers = new ArrayDeque<UUID>();
+		}
+
 		ignorers.addLast(ignorer.getUniqueId());
 		ignoreMap.put(ignored.getUniqueId(), ignorers);
 
-		ArrayDeque<String> ignoring = ignoringMap.get(ignorer.getUniqueId());
-		if (ignoring == null)
+		ArrayDeque<String> ignoring
+			= ignoringMap.get(ignorer.getUniqueId());
+
+		if (ignoring == null) {
 			ignoring = new ArrayDeque<String>();
+		}
+
 		ignoring.addLast(ignored.getName());
 		ignoringMap.put(ignorer.getUniqueId(), ignoring);
 	}
