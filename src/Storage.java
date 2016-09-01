@@ -31,6 +31,15 @@ public class Storage {
 	}
 
 	/**
+	 * Returns whether player is ignoring anybody
+	 * @param ignorer Player to check if is ignoring anybody
+	 * @return True if ignored is ignoring at least 1 player, else false
+	 */
+	public static boolean getIsIgnoring(Player ignorer) {
+		return ignoringMap.containsKey(ignorer.getUniqueId());
+	}
+
+	/**
 	 * Gets whether ignorer is ignoring ignored.
 	 * @param ignorer Player who is ignoring.
 	 * @param ignored Player who is being ignored.
@@ -75,27 +84,41 @@ public class Storage {
 	 * @param ignored Player who is being ignored.
 	 */
 	public static void addIgnore(Player ignorer, Player ignored) {
+		addIgnore(ignorer.getUniqueId(),
+				ignored.getUniqueId(),
+				ignored.getName());
+	}
+
+	/**
+	 * Has ignorer ignore ignored.
+	 * @param ignorer Player who is ignoring.
+	 * @param ignored Player who is being ignored.
+	 * @param ignored_name Name of player who is being ignored.
+	 */
+	public static void addIgnore(UUID ignorer,
+			UUID ignored,
+			String ignored_name) {
+
 		ArrayDeque<UUID> ignorers
-			= ignoreMap.get(ignored.getUniqueId());
+			= ignoreMap.get(ignored);
 
 		if (ignorers == null) {
 			ignorers = new ArrayDeque<UUID>();
 		}
 
-		ignorers.addLast(ignorer.getUniqueId());
-		ignoreMap.put(ignored.getUniqueId(), ignorers);
+		ignorers.addLast(ignorer);
+		ignoreMap.put(ignored, ignorers);
 
 		ArrayDeque<String> ignoring
-			= ignoringMap.get(ignorer.getUniqueId());
+			= ignoringMap.get(ignorer);
 
 		if (ignoring == null) {
 			ignoring = new ArrayDeque<String>();
 		}
 
-		ignoring.addLast(ignored.getName());
-		ignoringMap.put(ignorer.getUniqueId(), ignoring);
+		ignoring.addLast(ignored_name);
+		ignoringMap.put(ignorer, ignoring);
 	}
-
 }
 
 

@@ -61,6 +61,9 @@ public class IgnoreCommand implements CommandExecutor {
 			@SuppressWarnings("deprecation")
 			Player target = Ignore.instance.getServer()
 					.getPlayer(args[0]);
+			/* WARNING: It is important to only begin ignoring
+			 * players who are currently online. Changing this would
+			 * require changing the logic in PlayerJoin */
 
 			if (target == null) {
 				player.sendMessage(ChatColor.RED + "There is no player with that name online.");
@@ -72,12 +75,17 @@ public class IgnoreCommand implements CommandExecutor {
 						+ "You are no longer ignoring "
 						+ target.getName() + ".");
 				Storage.removeIgnore(player, target);
+				SQLite.remove_ignore(player.getUniqueId(),
+						target.getUniqueId());
 			} else {
 				player.sendMessage(ChatColor.GOLD
 						+ "You are now ignoring "
 						+ target.getName()
 						+ ". Use /ignore again to unignore.");
 				Storage.addIgnore(player, target);
+				SQLite.add_ignore(player.getUniqueId(),
+						target.getUniqueId(),
+						target.getName());
 			}
 
 		}

@@ -8,5 +8,11 @@ import java.util.UUID;
 public class UUIDName {
 	public UUID uuid;
 	public String name;
+
+	public UUIDName(UUID uuid, String name) {
+		this.uuid = uuid;
+		this.name = name;
+	}
+
 }
 

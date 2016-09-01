@@ -1,5 +1,7 @@
 package net.simpvp.Ignore;
 
+import java.io.File;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Ignore extends JavaPlugin {
@@ -11,7 +13,15 @@ public class Ignore extends JavaPlugin {
 	}
 
 	public void onEnable() {
+		/* Check if this plugin's directory exists, if not create it */
+		File dir = new File("plugins/Ignore");
+		if (!dir.exists()) {
+			dir.mkdir();
+		}
+		SQLite.connect();
+
 		getServer().getPluginManager().registerEvents(new ChatListener(), this);
+		getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
 		getCommand("ignore").setExecutor(new IgnoreCommand());
 		getCommand("me").setExecutor(new MeCommand());
 		getCommand("tell").setExecutor(new TellCommand());
