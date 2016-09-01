@@ -1,1 +1,2 @@
-Ignore.jar
+*.jar
+net

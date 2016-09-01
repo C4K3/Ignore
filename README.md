@@ -12,3 +12,10 @@ Commands
 ```
 (Un)ignores [player] (it's toggled).
 If no player is specified, shows who you are currently ignoring.
+
+Compiling
+-----
+Just run `make` in the directory. To specify the bukkit jar and/or java version, run it as
+```
+make BUKKIT=/path/to/bukkit.jar JAVA=1.7
+```
