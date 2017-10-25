@@ -67,12 +67,7 @@ public class TellCommand implements CommandExecutor {
 		}
 
 		if (target == null && !is_target_server) {
-			/* Yes this is confusing, but the message is
-			 * imitating default (Notchian) behavior */
-			send_msg(player,
-					"[" + splayer
-					+ ": That player cannot be found]",
-					ChatColor.GRAY);
+			send_msg(player, "No such player online.", ChatColor.RED);
 			return;
 		}
 
@@ -92,10 +87,7 @@ public class TellCommand implements CommandExecutor {
 					ChatColor.GRAY);
 			PMCommands.mPlayerList.put(uplayer, utarget);
 		} else {
-			send_msg(player,
-					"[" + splayer
-					+ ": That player cannot be found]",
-					ChatColor.GRAY);
+			send_msg(player, "No such player online.", ChatColor.RED);
 		}
 
 		/* Only actually send the message to the recipient if they're
