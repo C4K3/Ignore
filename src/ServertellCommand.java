@@ -77,7 +77,7 @@ public class ServertellCommand implements CommandExecutor {
 			}
 
 			TellCommand.send_msg(p,
-					target.getName() + "<--Server: " + msg,
+					"Server-->" + target.getName() + ": " + msg,
 					ChatColor.DARK_GRAY);
 		}
 
