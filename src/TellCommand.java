@@ -58,6 +58,7 @@ public class TellCommand implements CommandExecutor {
 		/* String of the player, in case it's null and it should
 		 * be 'Server' */
 		String splayer;
+		/* Command sender's uuid */
 		UUID uplayer = null;
 		if (player == null) {
 			splayer = "Server";
@@ -92,7 +93,18 @@ public class TellCommand implements CommandExecutor {
 
 		/* Only actually send the message to the recipient if they're
 		 * not ignoring the sender */
-		if (player == null || !Storage.getIsIgnoring(target, player)) {
+		if (is_target_server) {
+			send_msg(target, "<--" + splayer + ": " + msg,
+					ChatColor.GRAY);
+			for (Player p : Ignore.instance.getServer().getOnlinePlayers()) {
+				if (p.isOp() == false) {
+					continue;
+				}
+
+				send_msg(p, "Server<--" + splayer + ": " + msg,
+						ChatColor.DARK_GRAY);
+			}
+		} else if (player == null || !Storage.getIsIgnoring(target, player)) {
 			send_msg(target, "<--" + splayer + ": " + msg,
 					ChatColor.GRAY);
 			PMCommands.rPlayerList.put(utarget, uplayer);

@@ -14,7 +14,9 @@ import org.bukkit.entity.Player;
  */
 public class PMCommands implements CommandExecutor {
 
-	/* (both hashmaps) Key is the sender, value is their recipient */
+	/* (both hashmaps) Key is the sender, value is their recipient
+	 * I.e. if (A, B) is in mPlayerList, then the next time A
+	 * does /m it will be sent to B, and similar for rPlayerList */
 	public static HashMap<UUID, UUID> mPlayerList
 		= new HashMap<UUID, UUID>();
 	public static HashMap<UUID, UUID> rPlayerList

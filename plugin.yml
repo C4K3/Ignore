@@ -18,3 +18,5 @@ commands:
     description: Sends a private message to the last person you sent a message to
   R:
     description: Sends a private message to the last person you received a message from
+  Servertell:
+    description: Sends a private message as Server, only for OPs
