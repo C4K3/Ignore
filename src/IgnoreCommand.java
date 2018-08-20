@@ -33,8 +33,8 @@ public class IgnoreCommand implements CommandExecutor {
 		}
 
 		if (args.length > 1) {
-			player.sendMessage(ChatColor.RED
-					+ "Incorrect amount of arguments.\n"
+			send_message(player, ChatColor.RED,
+					"Incorrect amount of arguments.\n"
 					+ "Usage: /ignore [player]");
 
 		} else if (args.length == 0) {
@@ -43,18 +43,19 @@ public class IgnoreCommand implements CommandExecutor {
 				= Storage.getListIgnoring(player);
 			
 			if (ignored == null || ignored.size() == 0) {
-				player.sendMessage(ChatColor.GOLD + "You are not ignoring anybody.");
+				send_message(player, ChatColor.GOLD,
+						"You are not ignoring anybody.");
 				return true;
 			}
 
 			Iterator<String> ite = ignored.iterator();
-			String msg = ChatColor.GOLD + "You are ignoring: "
+			String msg = "You are ignoring: "
 				+ ite.next();
 			while (ite.hasNext()) {
 				msg += ", " + ite.next();
 			}
 
-			player.sendMessage(msg);
+			send_message(player, ChatColor.GOLD, msg);
 
 		} else if (args.length == 1) {
 			/* Is not stored, only used as command argument */
@@ -66,20 +67,21 @@ public class IgnoreCommand implements CommandExecutor {
 			 * require changing the logic in PlayerJoin */
 
 			if (target == null) {
-				player.sendMessage(ChatColor.RED + "There is no player with that name online.");
+				send_message(player, ChatColor.RED,
+						"There is no player with that name online.");
 				return true;
 			}
 
 			if (Storage.getIsIgnoring(player, target)) {
-				player.sendMessage(ChatColor.GOLD
-						+ "You are no longer ignoring "
+				send_message(player, ChatColor.GOLD,
+						"You are no longer ignoring "
 						+ target.getName() + ".");
 				Storage.removeIgnore(player, target);
 				SQLite.remove_ignore(player.getUniqueId(),
 						target.getUniqueId());
 			} else {
-				player.sendMessage(ChatColor.GOLD
-						+ "You are now ignoring "
+				send_message(player, ChatColor.GOLD,
+						"You are now ignoring "
 						+ target.getName()
 						+ ". Use /ignore again to unignore.");
 				Storage.addIgnore(player, target);
@@ -91,6 +93,11 @@ public class IgnoreCommand implements CommandExecutor {
 		}
 
 		return true;
+	}
+
+	private void send_message(Player player, ChatColor color, String msg) {
+		player.sendMessage(color + msg);
+		Ignore.instance.getLogger().info(msg);
 	}
 
 }
