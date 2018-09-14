@@ -20,6 +20,14 @@ public class ServertellCommand implements CommandExecutor {
 			Command cmd,
 			String label,
 			String[] args) {
+		return server_tell_command(sender, cmd, label, args);
+	}
+
+	public static boolean server_tell_command(
+			CommandSender sender,
+			Command cmd,
+			String label,
+			String[] args) {
 
 		Player player = null;
 		if (sender instanceof Player) {

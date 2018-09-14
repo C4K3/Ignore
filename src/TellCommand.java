@@ -23,6 +23,8 @@ public class TellCommand implements CommandExecutor {
 		Player player = null;
 		if (sender instanceof Player) {
 			player = (Player) sender;
+		} else {
+			return ServertellCommand.server_tell_command(sender, cmd, label, args);
 		}
 
 		if (args.length < 2) {
