@@ -1,4 +1,4 @@
-package net.simpvp.Ignore;
+package net.simpvp.ignore;
 
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;

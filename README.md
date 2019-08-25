@@ -15,7 +15,8 @@ If no player is specified, shows who you are currently ignoring.
 
 Compiling
 -----
-Just run `make` in the directory. To specify the bukkit jar and/or java version, run it as
+Use
 ```
-make BUKKIT=/path/to/bukkit.jar JAVA=1.7
+./gradlew build
 ```
+The built JAR file can be found in `build/libs`

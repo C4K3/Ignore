@@ -1,4 +1,4 @@
-package net.simpvp.Ignore;
+package net.simpvp.ignore;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

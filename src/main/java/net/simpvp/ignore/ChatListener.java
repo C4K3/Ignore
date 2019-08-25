@@ -1,4 +1,4 @@
-package net.simpvp.Ignore;
+package net.simpvp.ignore;
 
 import java.util.Set;
 
