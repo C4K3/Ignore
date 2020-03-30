@@ -4,8 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.UUID;
+import java.sql.Statement;
 import java.util.ArrayDeque;
+import java.util.UUID;
 
 public class SQLite {
 
@@ -39,23 +40,34 @@ public class SQLite {
 
 				/* Database is brand new. Create tables */
 				case 0: {
-				Ignore.instance.getLogger().info(
-						"Database not yet created. Creating ...");
-				query = "CREATE TABLE ignores "
-					+ "(id INTEGER PRIMARY KEY AUTOINCREMENT, "
-					+ "ignorer BLOB, "
-					+ "ignored BLOB, "
-					+ "ignoredname TEXT);";
-				st = conn.prepareStatement(query);
-				st.executeUpdate();
-				st.close();
+					Ignore.instance.getLogger().info(
+							"Database not yet created. Creating ...");
+					query = "CREATE TABLE ignores "
+						+ "(id INTEGER PRIMARY KEY AUTOINCREMENT, "
+						+ "ignorer BLOB, "
+						+ "ignored BLOB, "
+						+ "ignoredname TEXT);";
+					st = conn.prepareStatement(query);
+					st.executeUpdate();
+					st.close();
 
-				query = "PRAGMA user_version = 1;";
-				st = conn.prepareStatement(query);
-				st.executeUpdate();
-				st.close();
+					query = "PRAGMA user_version = 1;";
+					st = conn.prepareStatement(query);
+					st.executeUpdate();
+					st.close();
 
-				break;
+				}
+
+				case 1: {
+					Ignore.instance.getLogger().info(
+							"Migrating to version 2");
+					Statement statement = conn.createStatement();
+					query = ""
+						+ "CREATE INDEX idx_ignores_both ON ignores (ignorer, ignored);"
+
+						+ "PRAGMA user_version = 2;";
+					statement.executeUpdate(query);
+					statement.close();
 				}
 			}
 
