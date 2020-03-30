@@ -19,11 +19,9 @@ public class PlayerJoin implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 
-		/* If the player is already in one of the maps, then it can be
-		 * presumed that the player has already been loaded from the
-		 * database */
-		if (Storage.getIsIgnored(player)
-				|| Storage.getIsIgnoring(player)) {
+		/* If we've already loaded the list of people the player is
+		 * ignoring, we don't need to do it again. */
+		if (Storage.getIsIgnoring(player)) {
 			return;
 		}
 

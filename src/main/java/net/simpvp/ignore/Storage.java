@@ -1,6 +1,6 @@
 package net.simpvp.ignore;
 
-import java.util.ArrayDeque;
+import java.util.HashSet;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -11,15 +11,15 @@ import org.bukkit.entity.Player;
  */
 public class Storage {
 
-	/* Key is player who is ignored, and the arraydeque is a list of all
+	/* Key is player who is ignored, and the hashset is a collection of all
 	 * players who have ignored the key. */
-	private static HashMap<UUID, ArrayDeque<UUID>> ignoreMap
-		= new HashMap<UUID, ArrayDeque<UUID>>();
+	private static HashMap<UUID, HashSet<UUID>> ignoreMap
+		= new HashMap<UUID, HashSet<UUID>>();
 
 	/* Key is player who is ignoring, value is name of player ignorer
 	 * is ignoring */
-	private static HashMap<UUID, ArrayDeque<String>> ignoringMap
-		= new HashMap<UUID, ArrayDeque<String>>();
+	private static HashMap<UUID, HashSet<String>> ignoringMap
+		= new HashMap<UUID, HashSet<String>>();
 
 	/**
 	 * Returns whether player is ignored by anybody.
@@ -46,7 +46,7 @@ public class Storage {
 	 * @return True if ignorer is ignoring ignored, else false.
 	 */
 	public static boolean getIsIgnoring(Player ignorer, Player ignored) {
-		ArrayDeque<UUID> ignorers = ignoreMap.get(ignored.getUniqueId());
+		HashSet<UUID> ignorers = ignoreMap.get(ignored.getUniqueId());
 		if (ignorers == null)
 			return false;
 		return ignorers.contains(ignorer.getUniqueId());
@@ -55,9 +55,9 @@ public class Storage {
 	/**
 	 * Returns All the players whom the ignorer is ignoring.
 	 * @param ignorer Player who is ignoring.
-	 * @return ArrayDeque<String> of player names
+	 * @return HashSet<String> of player names
 	 */
-	public static ArrayDeque<String> getListIgnoring(Player ignorer) {
+	public static HashSet<String> getListIgnoring(Player ignorer) {
 		return ignoringMap.get(ignorer.getUniqueId());
 	}
 
@@ -67,12 +67,12 @@ public class Storage {
 	 * @param ignored Player who is being ignored.
 	 */
 	public static void removeIgnore(Player ignorer, Player ignored) {
-		ArrayDeque<UUID> ignorers
+		HashSet<UUID> ignorers
 			= ignoreMap.get(ignored.getUniqueId());
 		ignorers.remove(ignorer.getUniqueId());
 		ignoreMap.put(ignored.getUniqueId(), ignorers);
 
-		ArrayDeque<String> ignoring
+		HashSet<String> ignoring
 			= ignoringMap.get(ignorer.getUniqueId());
 		ignoring.remove(ignored.getName());
 		ignoringMap.put(ignorer.getUniqueId(), ignoring);
@@ -99,24 +99,24 @@ public class Storage {
 			UUID ignored,
 			String ignored_name) {
 
-		ArrayDeque<UUID> ignorers
+		HashSet<UUID> ignorers
 			= ignoreMap.get(ignored);
 
 		if (ignorers == null) {
-			ignorers = new ArrayDeque<UUID>();
+			ignorers = new HashSet<UUID>();
 		}
 
-		ignorers.addLast(ignorer);
+		ignorers.add(ignorer);
 		ignoreMap.put(ignored, ignorers);
 
-		ArrayDeque<String> ignoring
+		HashSet<String> ignoring
 			= ignoringMap.get(ignorer);
 
 		if (ignoring == null) {
-			ignoring = new ArrayDeque<String>();
+			ignoring = new HashSet<String>();
 		}
 
-		ignoring.addLast(ignored_name);
+		ignoring.add(ignored_name);
 		ignoringMap.put(ignorer, ignoring);
 	}
 }

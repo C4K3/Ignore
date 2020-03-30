@@ -1,7 +1,7 @@
 package net.simpvp.ignore;
 
 import java.util.UUID;
-import java.util.ArrayDeque;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import org.bukkit.ChatColor;
@@ -34,12 +34,12 @@ public class IgnoreCommand implements CommandExecutor {
 
 		if (args.length > 1) {
 			send_message(player, ChatColor.RED,
-					"Incorrect amount of arguments.\n"
+					"Incorrect number of arguments.\n"
 					+ "Usage: /ignore [player]");
 
 		} else if (args.length == 0) {
 			/* Print who the sender is ignoring */
-			ArrayDeque<String> ignored
+			HashSet<String> ignored
 				= Storage.getListIgnoring(player);
 			
 			if (ignored == null || ignored.size() == 0) {
