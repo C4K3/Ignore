@@ -7,6 +7,8 @@ description: Lets players ignore other players.
 commands:
   Ignore:
     description: (Un)ignores target player.
+  AmIIgnored:
+    description: Queries if a player is ignoring you.
   Me:
     description: Duplicate of vanilla /me with ignore support
   Tell:

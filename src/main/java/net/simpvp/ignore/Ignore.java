@@ -23,6 +23,7 @@ public class Ignore extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new ChatListener(), this);
 		getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
 		getCommand("ignore").setExecutor(new IgnoreCommand());
+		getCommand("amiignored").setExecutor(new AmIIgnoredCommand());
 		getCommand("me").setExecutor(new MeCommand());
 		getCommand("tell").setExecutor(new TellCommand());
 		getCommand("servertell").setExecutor(new ServertellCommand());
