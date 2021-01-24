@@ -16,21 +16,20 @@ public class ChatListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled=true)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
-
-		if (!Storage.getIsIgnored(event.getPlayer())) {
-			return;
-		}
-
 		Set<Player> recipients = event.getRecipients();
 
-		for (Player p : Ignore.instance.getServer()
-				.getOnlinePlayers()) {
-			if (Storage.getIsIgnoring(p, event.getPlayer())) {
-				recipients.remove(p);
+		if (Storage.getIsIgnored(event.getPlayer())) {
+			for (Player p : Ignore.instance.getServer().getOnlinePlayers()) {
+				if (Storage.getIsIgnoring(p, event.getPlayer())) {
+					recipients.remove(p);
+				}
 			}
 		}
 
+		for (Player p : recipients) {
+			if (event.getMessage().startsWith(p.getName() + ": ")) {
+				LastLog.add_to_log(p, event.getMessage());
+			}
+		}
 	}
-
 }
-

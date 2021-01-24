@@ -126,7 +126,12 @@ public class TellCommand implements CommandExecutor {
 		if (player == null) {
 			Ignore.instance.getLogger().info(message);
 		} else {
-			player.sendMessage(chatcolor + message);
+			String m = chatcolor + message;
+			player.sendMessage(m);
+
+			if (message.startsWith("<--")) {
+				LastLog.add_to_log(player, m);
+			}
 		}
 	}
 

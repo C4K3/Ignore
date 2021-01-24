@@ -21,3 +21,5 @@ commands:
     description: Sends a private message to the last person you received a message from
   Servertell:
     description: Sends a private message as Server, only for OPs
+  Lastlog:
+    description: Show last messages sent to you
