@@ -15,8 +15,8 @@ If no player is specified, shows who you are currently ignoring.
 
 Compiling
 -----
-Use
+Compiles using maven, run
 ```
-./gradlew build
+mvn clean package
 ```
-The built JAR file can be found in `build/libs`
+The built plugin will then be put into `target/Ignore.jar`.
