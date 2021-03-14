@@ -1,6 +1,5 @@
 package net.simpvp.ignore;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,9 +10,12 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.UUID;
 
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.TextComponent;
+
 public class LastLog implements CommandExecutor {
 
-	private static HashMap<UUID, Deque<String>> messages = new HashMap<>();
+	private static HashMap<UUID, Deque<TextComponent>> messages = new HashMap<>();
 
 	public boolean onCommand(
 			CommandSender sender,
@@ -29,25 +31,37 @@ public class LastLog implements CommandExecutor {
 			return true;
 		}
 
-		Deque<String> d = messages.get(player.getUniqueId());
-		String m = "";
+		Deque<TextComponent> d = messages.get(player.getUniqueId());
+
+		TextComponent m = new TextComponent();
+
+		TextComponent header = new TextComponent("Lastlog:\n");
+		header.setColor(ChatColor.GREEN);
+
+		TextComponent footer = new TextComponent("End of Lastlog");
+		footer.setColor(ChatColor.GREEN);
+
+		m.addExtra(header);
+
 		if (d != null) {
-			for (String s : d) {
-				m += s + "\n";
+			for (TextComponent component : d) {
+				m.addExtra(component);
 			}
 		}
-		player.sendMessage(String.format("%sLastlog:\n%s%s%sEnd of Lastlog%s",
-					ChatColor.GREEN,
-					ChatColor.RESET,
-					m,
-					ChatColor.GREEN,
-					ChatColor.RESET));
+
+		m.addExtra(footer);
+
+		player.spigot().sendMessage(m);
 
 		return true;
 	}
 
-	public static void add_to_log(Player target, String msg) {
-		Deque<String> d = messages.get(target.getUniqueId());
+	public static void add_to_log(Player target, TextComponent msg) {
+		// Clone it to avoid appending newline to stored copy
+		TextComponent m = msg.duplicate();
+		m.addExtra("\n");
+
+		Deque<TextComponent> d = messages.get(target.getUniqueId());
 		if (d == null) {
 			d = new ArrayDeque<>();
 			messages.put(target.getUniqueId(), d);
@@ -55,6 +69,6 @@ public class LastLog implements CommandExecutor {
 		while (d.size() > 20) {
 			d.removeFirst();
 		}
-		d.addLast(msg);
+		d.addLast(m);
 	}
 }

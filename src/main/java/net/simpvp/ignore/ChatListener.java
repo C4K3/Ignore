@@ -8,6 +8,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import net.md_5.bungee.api.chat.TextComponent;
+
 /**
  * Listens to all chat messages, and removes from the recipients any player
  * ignoring the event.getPlayer
@@ -28,7 +30,11 @@ public class ChatListener implements Listener {
 
 		for (Player p : recipients) {
 			if (event.getMessage().startsWith(p.getName() + ": ")) {
-				LastLog.add_to_log(p, event.getMessage());
+				TextComponent m = new TextComponent(String.format("<%s> ", event.getPlayer().getName()));
+				m.addExtra(event.getMessage());
+				LastLog.add_to_log(p, m);
+
+				break;
 			}
 		}
 	}

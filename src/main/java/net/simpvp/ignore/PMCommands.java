@@ -3,11 +3,13 @@ package net.simpvp.ignore;
 import java.util.UUID;
 import java.util.HashMap;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.TextComponent;
 
 /**
  * Implements the /r and /m commands
@@ -36,9 +38,10 @@ public class PMCommands implements CommandExecutor {
 		}
 
 		if (args.length < 1) {
-			TellCommand.send_msg(player,
-					"You cannot send an empty message.",
-					ChatColor.RED);
+			TextComponent m = new TextComponent("You cannot send an empty message.");
+			m.setColor(ChatColor.RED);
+			Chat.send_chat(player, m);
+
 			return true;
 		}
 
@@ -50,15 +53,17 @@ public class PMCommands implements CommandExecutor {
 		UUID utarget;
 		if (cmd.getName().equalsIgnoreCase("m")) {
 			if (!mPlayerList.containsKey(uplayer)) {
-				TellCommand.send_msg(player, "You have not sent any PMs yet.",
-						ChatColor.RED);
+				TextComponent m = new TextComponent("You have not sent any PMs yet.");
+				m.setColor(ChatColor.RED);
+				Chat.send_chat(player, m);
 				return true;
 			}
 			utarget = mPlayerList.get(uplayer);
 		} else {
 			if (!rPlayerList.containsKey(uplayer)) {
-				TellCommand.send_msg(player, "You have not received any PMs yet.",
-						ChatColor.RED);
+				TextComponent m = new TextComponent("You have not received any PMs yet.");
+				m.setColor(ChatColor.RED);
+				Chat.send_chat(player, m);
 				return true;
 			}
 			utarget = rPlayerList.get(uplayer);

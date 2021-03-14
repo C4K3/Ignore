@@ -2,11 +2,13 @@ package net.simpvp.ignore;
 
 import java.util.UUID;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.TextComponent;
 
 /**
  * Controls the /servertell command
@@ -35,16 +37,16 @@ public class ServertellCommand implements CommandExecutor {
 		}
 
 		if (player != null && player.isOp() == false) {
-			TellCommand.send_msg(player,
-					"You do not have permission to use this command.",
-					ChatColor.RED);
+			TextComponent m = new TextComponent("You do not have permission to use this command.");
+			m.setColor(ChatColor.RED);
+			Chat.send_chat(player, m);
 			return true;
 		}
 
 		if (args.length < 2) {
-			TellCommand.send_msg(player,
-					"Usage: /tell <player> <private message ...>",
-					ChatColor.RED);
+			TextComponent m = new TextComponent("Usage: /tell <player> <private message ...>");
+			m.setColor(ChatColor.RED);
+			Chat.send_chat(player, m);
 			return true;
 		}
 
@@ -54,9 +56,9 @@ public class ServertellCommand implements CommandExecutor {
 				.getPlayerExact(args[0]);
 
 		if (target == null) {
-			TellCommand.send_msg(player,
-					"No such player online.",
-					ChatColor.RED);
+			TextComponent m = new TextComponent("No such player online.");
+			m.setColor(ChatColor.RED);
+			Chat.send_chat(player, m);
 			return true;
 		}
 
@@ -74,20 +76,11 @@ public class ServertellCommand implements CommandExecutor {
 			recipient_uuid = target.getUniqueId();
 		}
 
-		TellCommand.send_msg(target, "<--Server: " + msg,
-				ChatColor.GRAY);
 		/* null for player = Server */
+		Chat.receive_pm(target, null, msg);
 		PMCommands.rPlayerList.put(recipient_uuid, null);
 
-		for (Player p : Ignore.instance.getServer().getOnlinePlayers()) {
-			if (p.isOp() == false) {
-				continue;
-			}
-
-			String log_msg = "Server-->" + target.getName() + ": " + msg;
-			p.sendMessage(ChatColor.DARK_GRAY + log_msg);
-			Ignore.instance.getLogger().info(log_msg);
-		}
+		Chat.server_send_pm(target, msg);
 
 		return true;
 	}

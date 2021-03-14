@@ -2,11 +2,13 @@ package net.simpvp.ignore;
 
 import java.util.UUID;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.TextComponent;
 
 /**
  * Takes over the /tell command.
@@ -28,8 +30,9 @@ public class TellCommand implements CommandExecutor {
 		}
 
 		if (args.length < 2) {
-			send_msg(player, "Usage: /tell <player> <private message ...>",
-					ChatColor.RED);
+			TextComponent m = new TextComponent("Usage: /tell <player> <private message ...>");
+			m.setColor(ChatColor.RED);
+			Chat.send_chat(player, m);
 			return true;
 		}
 
@@ -70,7 +73,9 @@ public class TellCommand implements CommandExecutor {
 		}
 
 		if (target == null && !is_target_server) {
-			send_msg(player, "No such player online.", ChatColor.RED);
+			TextComponent m = new TextComponent("No such player online.");
+			m.setColor(ChatColor.RED);
+			Chat.send_chat(player, m);
 			return;
 		}
 
@@ -86,54 +91,23 @@ public class TellCommand implements CommandExecutor {
 		/* Don't let people figure out if a vanished admin is
 		 * online or not */
 		if (player == null || target == null || player.canSee(target)) {
-			send_msg(player, "-->" + starget + ": " + msg,
-					ChatColor.GRAY);
+			Chat.send_pm(player, target, msg);
 			PMCommands.mPlayerList.put(uplayer, utarget);
 		} else {
-			send_msg(player, "No such player online.", ChatColor.RED);
+			TextComponent m = new TextComponent("No such player online.");
+			m.setColor(ChatColor.RED);
+			Chat.send_chat(player, m);
 		}
 
 		/* Only actually send the message to the recipient if they're
 		 * not ignoring the sender */
 		if (is_target_server) {
-			send_msg(target, "<--" + splayer + ": " + msg,
-					ChatColor.GRAY);
-			for (Player p : Ignore.instance.getServer().getOnlinePlayers()) {
-				if (p.isOp() == false) {
-					continue;
-				}
-
-				send_msg(p, "Server<--" + splayer + ": " + msg,
-						ChatColor.DARK_GRAY);
-			}
+			Chat.server_receive_pm(player, msg);
 		} else if (player == null || !Storage.getIsIgnoring(target, player)) {
-			send_msg(target, "<--" + splayer + ": " + msg,
-					ChatColor.GRAY);
+			Chat.receive_pm(target, player, msg);
 			PMCommands.rPlayerList.put(utarget, uplayer);
 		}
 
 		return;
 	}
-
-	/**
-	 * Common function for sending a message to somebody
-	 */
-	public static void send_msg(
-			Player player,
-			String message,
-			ChatColor chatcolor) {
-
-		if (player == null) {
-			Ignore.instance.getLogger().info(message);
-		} else {
-			String m = chatcolor + message;
-			player.sendMessage(m);
-
-			if (message.startsWith("<--")) {
-				LastLog.add_to_log(player, m);
-			}
-		}
-	}
-
 }
-
