@@ -40,19 +40,18 @@ public class MeCommand implements CommandExecutor {
 			msg = "* " + player.getName();
 		}
 
-		for (int i = 0; i < args.length; i++)
+		for (int i = 0; i < args.length; i++) {
 			msg += " " + args[i];
+		}
 
 		Bukkit.getLogger().info(msg);
 
-		for (Player p : Ignore.instance.getServer()
-				.getOnlinePlayers()) {
-			if (player != null && !Storage.getIsIgnoring(p, player))
+		for (Player p : Ignore.instance.getServer().getOnlinePlayers()) {
+			if (player == null || !Storage.getIsIgnoring(p, player)) {
 				p.sendMessage(msg);
+			}
 		}
 
 		return true;
 	}
-
 }
-
