@@ -8,6 +8,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import org.apache.commons.lang3.StringUtils;
+
 import net.md_5.bungee.api.chat.TextComponent;
 
 /**
@@ -29,7 +31,7 @@ public class ChatListener implements Listener {
 		}
 
 		for (Player p : recipients) {
-			if (event.getMessage().startsWith(p.getName() + ": ")) {
+			if (StringUtils.startsWithIgnoreCase(event.getMessage(), p.getName())) {
 				TextComponent m = new TextComponent(String.format("<%s> ", event.getPlayer().getName()));
 				m.addExtra(event.getMessage());
 				LastLog.add_to_log(p, m);
