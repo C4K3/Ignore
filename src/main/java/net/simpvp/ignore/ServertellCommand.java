@@ -1,5 +1,6 @@
 package net.simpvp.ignore;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 import org.bukkit.command.Command;
@@ -62,10 +63,7 @@ public class ServertellCommand implements CommandExecutor {
 			return true;
 		}
 
-		String msg = args[1];
-		for (int i = 2; i < args.length; i++) {
-			msg += " " + args[i];
-		}
+		String[] msg = Arrays.copyOfRange(args, 1, args.length);
 
 		UUID sender_uuid = null;
 		if (player != null) {

@@ -1,7 +1,8 @@
 package net.simpvp.ignore;
 
-import java.util.UUID;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -45,10 +46,7 @@ public class PMCommands implements CommandExecutor {
 			return true;
 		}
 
-		String msg = args[0];
-		for (int i = 1; i < args.length; i++) {
-			msg += " " + args[i];
-		}
+		String[] msg = Arrays.copyOfRange(args, 1, args.length);
 
 		UUID utarget;
 		if (cmd.getName().equalsIgnoreCase("m")) {
