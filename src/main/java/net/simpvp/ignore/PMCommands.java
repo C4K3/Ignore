@@ -46,8 +46,6 @@ public class PMCommands implements CommandExecutor {
 			return true;
 		}
 
-		String[] msg = Arrays.copyOfRange(args, 1, args.length);
-
 		UUID utarget;
 		if (cmd.getName().equalsIgnoreCase("m")) {
 			if (!mPlayerList.containsKey(uplayer)) {
@@ -72,7 +70,7 @@ public class PMCommands implements CommandExecutor {
 			target = Ignore.instance.getServer().getPlayer(utarget);
 		}
 
-		TellCommand.sendPM(player, target, msg, utarget == null);
+		TellCommand.sendPM(player, target, args, utarget == null);
 
 		return true;
 	}
