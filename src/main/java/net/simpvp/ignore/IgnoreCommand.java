@@ -66,7 +66,7 @@ public class IgnoreCommand implements CommandExecutor {
 			 * players who are currently online. Changing this would
 			 * require changing the logic in PlayerJoin */
 
-			if (target == null) {
+			if (target == null || !(player.canSee(target))) {
 				send_message(player, ChatColor.RED,
 						"There is no player with that name online.");
 				return true;
