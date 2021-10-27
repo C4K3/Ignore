@@ -34,7 +34,7 @@ public class Chat {
 			s = sender.getName();
 		}
 
-		TextComponent m = new TextComponent(String.format("<--%s:", s));
+		TextComponent m = new TextComponent(String.format("<--%s: ", s));
 		m.setColor(ChatColor.GRAY);
 		m.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format("/tell %s ", s)));
 		m.addExtra(from_args(message));
@@ -51,7 +51,7 @@ public class Chat {
 			s = target.getName();
 		}
 
-		TextComponent m = new TextComponent(String.format("-->%s:", s));
+		TextComponent m = new TextComponent(String.format("-->%s: ", s));
 		m.setColor(ChatColor.GRAY);
 		m.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format("/tell %s ", s)));
 		m.addExtra(from_args(message));
@@ -60,7 +60,7 @@ public class Chat {
 	}
 
 	public static void server_receive_pm(Player player, String[] message) {
-		TextComponent m = new TextComponent(String.format("Server<--%s:", player.getName()));
+		TextComponent m = new TextComponent(String.format("Server<--%s: ", player.getName()));
 		m.setColor(ChatColor.DARK_GRAY);
 		m.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format("/servertell %s ", player.getName())));
 		m.addExtra(from_args(message));
@@ -77,7 +77,7 @@ public class Chat {
 	}
 
 	public static void server_send_pm(Player player, String[] message) {
-		TextComponent m = new TextComponent(String.format("Server-->%s:", player.getName()));
+		TextComponent m = new TextComponent(String.format("Server-->%s: ", player.getName()));
 		m.setColor(ChatColor.DARK_GRAY);
 		m.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format("/servertell %s ", player.getName())));
 		m.addExtra(from_args(message));
@@ -102,7 +102,13 @@ public class Chat {
 	static TextComponent from_args(String[] args) {
 		TextComponent ret = new TextComponent();
 		String c = "";
+		boolean not_first = false;
 		for (String arg : args) {
+			if (not_first) {
+				c += " ";
+			}
+			not_first = true;
+
 			// If an arg contains a period, we consider it as (maybe)
 			// an url.
 			//
@@ -113,8 +119,9 @@ public class Chat {
 			// an url as an url. (Maybe we should just mark
 			// everything as an url?)
 			if (arg.contains(".")) {
-				c += " ";
-				ret.addExtra(c);
+				if (!c.isEmpty()) {
+					ret.addExtra(c);
+				}
 				c = "";
 
 				String url;
@@ -130,7 +137,7 @@ public class Chat {
 				ret.addExtra(link);
 
 			} else {
-				c += " " + arg;
+				c += arg;
 			}
 		}
 		if (!c.isEmpty()) {
