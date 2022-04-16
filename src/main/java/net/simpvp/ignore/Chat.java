@@ -20,7 +20,7 @@ public class Chat {
 			Player player,
 			TextComponent msg) {
 		if (player == null) {
-			Ignore.instance.getLogger().info(msg.getText());
+			Ignore.instance.getLogger().info(msg.toPlainText());
 		} else {
 			player.spigot().sendMessage(msg);
 		}
