@@ -2,6 +2,8 @@ package net.simpvp.ignore;
 
 import org.bukkit.entity.Player;
 
+import java.util.Collection;
+
 import org.apache.commons.lang3.StringUtils;
 
 import net.md_5.bungee.api.ChatColor;
@@ -26,7 +28,7 @@ public class Chat {
 		}
 	}
 
-	public static void receive_pm(Player player, Player sender, String message[]) {
+	public static void receive_pm(Player player, Player sender, Collection<String> message) {
 		String s;
 		if (sender == null) {
 			s = "Server";
@@ -43,7 +45,7 @@ public class Chat {
 		LastLog.add_to_log(player, m);
 	}
 
-	public static void send_pm(Player player, Player target, String message[]) {
+	public static void send_pm(Player player, Player target, Collection<String> message) {
 		String s;
 		if (target == null) {
 			s = "Server";
@@ -59,7 +61,7 @@ public class Chat {
 		send_chat(player, m);
 	}
 
-	public static void server_receive_pm(Player player, String[] message) {
+	public static void server_receive_pm(Player player, Collection<String> message) {
 		TextComponent m = new TextComponent(String.format("Server<--%s: ", player.getName()));
 		m.setColor(ChatColor.DARK_GRAY);
 		m.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format("/servertell %s ", player.getName())));
@@ -76,7 +78,7 @@ public class Chat {
 		}
 	}
 
-	public static void server_send_pm(Player player, String[] message) {
+	public static void server_send_pm(Player player, Collection<String> message) {
 		TextComponent m = new TextComponent(String.format("Server-->%s: ", player.getName()));
 		m.setColor(ChatColor.DARK_GRAY);
 		m.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format("/servertell %s ", player.getName())));
@@ -96,10 +98,8 @@ public class Chat {
 	 * Given a list of arguments, assemble them into a space-separated TextComponent.
 	 *
 	 * Links will be given an OPEN_URL ClickEvent.
-	 *
-	 * Note that the returned TextComponent will always start with a space ' '.
 	 */
-	static TextComponent from_args(String[] args) {
+	static TextComponent from_args(Collection<String> args) {
 		TextComponent ret = new TextComponent();
 		String c = "";
 		boolean not_first = false;

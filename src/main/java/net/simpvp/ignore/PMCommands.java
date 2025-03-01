@@ -1,7 +1,9 @@
 package net.simpvp.ignore;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.command.Command;
@@ -38,7 +40,9 @@ public class PMCommands implements CommandExecutor {
 			uplayer = player.getUniqueId();
 		}
 
-		if (args.length < 1) {
+		List<String> msg = Arrays.asList(args);
+
+		if (msg.isEmpty()) {
 			TextComponent m = new TextComponent("You cannot send an empty message.");
 			m.setColor(ChatColor.RED);
 			Chat.send_chat(player, m);
@@ -70,7 +74,7 @@ public class PMCommands implements CommandExecutor {
 			target = Ignore.instance.getServer().getPlayer(utarget);
 		}
 
-		TellCommand.sendPM(player, target, args, utarget == null);
+		TellCommand.sendPM(player, target, msg, utarget == null);
 
 		return true;
 	}

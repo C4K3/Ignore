@@ -1,5 +1,6 @@
 package net.simpvp.ignore;
 
+import java.util.List;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -63,7 +64,7 @@ public class ServertellCommand implements CommandExecutor {
 			return true;
 		}
 
-		String[] msg = Arrays.copyOfRange(args, 1, args.length);
+		List<String> msg = Arrays.stream(args, 1, args.length).toList();
 
 		UUID sender_uuid = null;
 		if (player != null) {

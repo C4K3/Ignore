@@ -1,5 +1,7 @@
 package net.simpvp.ignore;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -25,7 +27,7 @@ public class ChatListener implements Listener {
 		recipients.removeIf(p -> Storage.getIsIgnoring(p, event.getPlayer()));
 
 		String raw_chat = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
-		TextComponent chat = Chat.from_args(raw_chat.split(" "));
+		TextComponent chat = Chat.from_args(Arrays.asList(raw_chat.split(" ")));
 
 		// Intentional use of bukkit logger
 		Bukkit.getLogger().info(chat.toPlainText());

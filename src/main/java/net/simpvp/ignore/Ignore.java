@@ -31,6 +31,7 @@ public class Ignore extends JavaPlugin {
 		getCommand("r").setExecutor(new PMCommands());
 		getCommand("m").setExecutor(new PMCommands());
 		getCommand("lastlog").setExecutor(new LastLog());
+		getCommand("report").setExecutor(new ReportCommand());
 	}
 
 	public void onDisable() {

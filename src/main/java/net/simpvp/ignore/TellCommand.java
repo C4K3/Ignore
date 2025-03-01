@@ -1,6 +1,8 @@
 package net.simpvp.ignore;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.command.Command;
@@ -42,7 +44,7 @@ public class TellCommand implements CommandExecutor {
 		Player target = Ignore.instance.getServer()
 				.getPlayerExact(args[0]);
 
-		String[] msg = Arrays.copyOfRange(args, 1, args.length);
+		List<String> msg = Arrays.stream(args, 1, args.length).toList();
 
 		sendPM(player, target, msg, args[0].equalsIgnoreCase("server"));
 
@@ -55,7 +57,7 @@ public class TellCommand implements CommandExecutor {
 	public static void sendPM(
 			Player player,
 			Player target,
-			String[] msg,
+			Collection<String> msg,
 			boolean is_target_server) {
 
 		/* String of the player, in case it's null and it should
