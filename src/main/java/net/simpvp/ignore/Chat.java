@@ -132,9 +132,16 @@ public class Chat {
 					url = "https://" + arg;
 				}
 
-				TextComponent link = new TextComponent(arg);
-				link.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
-				ret.addExtra(link);
+				try {
+					new java.net.URI(url);
+
+					TextComponent link = new TextComponent(arg);
+					link.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
+					ret.addExtra(link);
+
+				} catch (Exception e) {
+					ret.addExtra(arg);
+				}
 
 			} else {
 				c += arg;
