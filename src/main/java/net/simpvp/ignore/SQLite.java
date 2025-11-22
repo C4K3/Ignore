@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayDeque;
+import java.util.HashSet;
 import java.util.UUID;
 
 public class SQLite {
@@ -66,6 +67,18 @@ public class SQLite {
 						+ "CREATE INDEX idx_ignores_both ON ignores (ignorer, ignored);"
 
 						+ "PRAGMA user_version = 2;";
+					statement.executeUpdate(query);
+					statement.close();
+				}
+
+				case 2: {
+					Ignore.instance.getLogger().info(
+							"Migrating to version 3");
+					Statement statement = conn.createStatement();
+					query = ""
+						+ "CREATE TABLE ignoredeath (player_uuid BLOB PRIMARY KEY);"
+
+						+ "PRAGMA user_version = 3;";
 					statement.executeUpdate(query);
 					statement.close();
 				}
@@ -161,6 +174,57 @@ public class SQLite {
 		return ret;
 	}
 
+	/**
+	 * Returns all players who have ignore-death enabled.
+	 */
+	public static HashSet<UUID> get_ignore_death_all() {
+		HashSet<UUID> ret = new HashSet<UUID>();
+		try {
+			String query = "SELECT player_uuid FROM ignoredeath;";
+			PreparedStatement st = conn.prepareStatement(query);
+			ResultSet rs = st.executeQuery();
+
+			while (rs.next()) {
+				String uuidStr = rs.getString("player_uuid");
+				try {
+					UUID uuid = UUID.fromString(uuidStr);
+					ret.add(uuid);
+				} catch (IllegalArgumentException ex) {
+					// Ignore malformed UUIDs
+				}
+			}
+
+			rs.close();
+			st.close();
+		} catch (Exception e) {
+			Ignore.instance.getLogger().warning(e.getMessage());
+		}
+		return ret;
+	}
+
+	/**
+	 * Sets whether a player has ignore-death enabled.
+	 */
+	public static void set_ignore_death(UUID player, boolean enabled) {
+		try {
+			if (enabled) {
+				String query = "INSERT OR IGNORE INTO ignoredeath (player_uuid)"
+						+ " VALUES (?);";
+				PreparedStatement st = conn.prepareStatement(query);
+				st.setString(1, player.toString());
+				st.executeUpdate();
+				st.close();
+			} else {
+				String query = "DELETE FROM ignoredeath WHERE player_uuid = ?;";
+				PreparedStatement st = conn.prepareStatement(query);
+				st.setString(1, player.toString());
+				st.executeUpdate();
+				st.close();
+			}
+		} catch (Exception e) {
+			Ignore.instance.getLogger().warning(e.getMessage());
+		}
+	}
 }
 
 

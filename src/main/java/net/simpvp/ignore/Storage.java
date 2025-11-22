@@ -21,6 +21,10 @@ public class Storage {
 	private static HashMap<UUID, HashSet<String>> ignoringMap
 		= new HashMap<UUID, HashSet<String>>();
 
+	/* Players who have ignore-death enabled */
+	private static HashSet<UUID> ignoreDeathSet
+		= new HashSet<UUID>();
+
 	/**
 	 * Returns whether player is ignored by anybody.
 	 * @param uuid Player to check if is ignored.
@@ -118,6 +122,35 @@ public class Storage {
 
 		ignoring.add(ignored_name);
 		ignoringMap.put(ignorer, ignoring);
+	}
+
+	/**
+	 * Returns whether player has ignore-death enabled.
+	 */
+	public static boolean getIgnoreDeath(Player player) {
+		return ignoreDeathSet.contains(player.getUniqueId());
+	}
+
+	/**
+	 * Sets whether player has ignore-death enabled.
+	 */
+	public static void setIgnoreDeath(Player player, boolean enabled) {
+		UUID uuid = player.getUniqueId();
+		if (enabled) {
+			ignoreDeathSet.add(uuid);
+		} else {
+			ignoreDeathSet.remove(uuid);
+		}
+	}
+
+	/**
+	 * Initializes ignore-death state from db.
+	 */
+	public static void initIgnoreDeath(HashSet<UUID> uuids) {
+		ignoreDeathSet.clear();
+		if (uuids != null) {
+			ignoreDeathSet.addAll(uuids);
+		}
 	}
 }
 

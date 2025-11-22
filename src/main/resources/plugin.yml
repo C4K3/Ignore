@@ -25,3 +25,5 @@ commands:
     description: Show last messages sent to you
   Report:
     description: Report something to the admins
+  Ignoredeath:
+    description: Toggle hiding death messages from ignored players

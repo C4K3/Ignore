@@ -19,9 +19,11 @@ public class Ignore extends JavaPlugin {
 			dir.mkdir();
 		}
 		SQLite.connect();
+		Storage.initIgnoreDeath(SQLite.get_ignore_death_all());
 
 		getServer().getPluginManager().registerEvents(new ChatListener(), this);
 		getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
+		getServer().getPluginManager().registerEvents(new DeathListener(), this);
 		getCommand("ignore").setExecutor(new IgnoreCommand());
 		getCommand("me").setExecutor(new MeCommand());
 		getCommand("tell").setExecutor(new TellCommand());
@@ -32,6 +34,7 @@ public class Ignore extends JavaPlugin {
 		getCommand("m").setExecutor(new PMCommands());
 		getCommand("lastlog").setExecutor(new LastLog());
 		getCommand("report").setExecutor(new ReportCommand());
+		getCommand("ignoredeath").setExecutor(new IgnoreDeathCommand());
 	}
 
 	public void onDisable() {
